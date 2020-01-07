@@ -453,7 +453,7 @@ class ProviderManagerTest(IamTestCase):
 
         provider_uuid = data_generator.provider_uuid
         manager = ProviderManager(provider_uuid)
-        infrastructure_name = manager.get_infrastructure_name(self.tenant)
+        infrastructure_name = manager.get_infrastructure_name()
         self.assertEqual(infrastructure_name, Provider.PROVIDER_AWS)
 
         data_generator.remove_data_from_tenant()
@@ -472,7 +472,7 @@ class ProviderManagerTest(IamTestCase):
 
         provider_uuid = data_generator.provider_uuid
         manager = ProviderManager(provider_uuid)
-        infrastructure_name = manager.get_infrastructure_name(self.tenant)
+        infrastructure_name = manager.get_infrastructure_name()
         self.assertEqual(infrastructure_name, Provider.PROVIDER_AZURE)
 
         data_generator.remove_data_from_tenant()
@@ -492,7 +492,7 @@ class ProviderManagerTest(IamTestCase):
 
         provider_uuid = ocp_aws_data_generator.provider_uuid
         manager = ProviderManager(provider_uuid)
-        infrastructure_name = manager.get_infrastructure_name(self.tenant)
+        infrastructure_name = manager.get_infrastructure_name()
         self.assertEqual(infrastructure_name, 'Unknown')
 
         data_generator.remove_data_from_tenant()
@@ -511,8 +511,7 @@ class ProviderManagerTest(IamTestCase):
 
         provider_uuid = data_generator.provider_uuid
         manager = ProviderManager(provider_uuid)
-        with patch.object(ProviderAccessor, 'infrastructure_type', side_effect=ProviderAccessorError('mock_error')):
-            infrastructure_name = manager.get_infrastructure_name(self.tenant)
-            self.assertEqual(infrastructure_name, 'Unknown-Error')
+        infrastructure_name = manager.get_infrastructure_name()
+        self.assertEqual(infrastructure_name, 'Unknown')
 
         data_generator.remove_data_from_tenant()
