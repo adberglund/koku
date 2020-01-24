@@ -16,7 +16,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           command: release
           reaction: "true"
-          reaction-type: "eyes"
+          reaction-type: "rocket"
           allow-edits: "false"
           permission-level: admin
       - name: Tag this release
@@ -31,6 +31,7 @@ jobs:
               let MINOR_VERSION++
           fi
           TAG="r.$DATE.$MINOR_VERSION"
-          git log $(git tag --list | tail -1)..stable | git tag -a $TAG -F -
+          git checkout stable
+          git log $(git tag --list | tail -1)..$(git rev-parse --abbrev-ref HEAD) | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash
