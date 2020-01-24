@@ -1,9 +1,14 @@
 name: Tag Release
-on: issue_comment
+on:
+  issue_comment:
+    types: [created]
+    branch: stable
 jobs:
   tag_release:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Check for Command
         id: command
         uses: xt0rted/slash-command-action@v1
@@ -24,6 +29,6 @@ jobs:
               let MINOR_VERSION++
           fi
           TAG="r.$DATE.$MINOR_VERSION"
-          git log $(git tag --list | tail -1)..$(git rev-parse --abbrev-ref HEAD) | git tag -a $TAG -F -
+          git log $(git tag --list | tail -1)..stable | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash
