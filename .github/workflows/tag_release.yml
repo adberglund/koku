@@ -2,7 +2,7 @@ name: Tag Release
 on:
   issue_comment:
     types: [created]
-    branch: stable
+    branch: stable 
 jobs:
   tag_release:
     runs-on: ubuntu-latest
@@ -31,6 +31,6 @@ jobs:
               let MINOR_VERSION++
           fi
           TAG="r.$DATE.$MINOR_VERSION"
-          git log $(git tag --list | tail -1)..origin/stable | git tag -a $TAG -F -
+          git log $(git tag --list | tail -1)..$GITHUB_REF | git tag -a $TAG -F -
           git push origin $TAG
         shell: bash
