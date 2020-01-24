@@ -20,6 +20,8 @@ jobs:
           allow-edits: "false"
           permission-level: admin
       - name: Tag this release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DATE=$(date +"%Y.%m.%d")
           PREV_RELEASE=$(git tag --list | tail -1)
